@@ -3,6 +3,7 @@ package fetchs
 import (
 	"encoding/json"
 	"fmt"
+	fetch_models "github.com/axdevts/go-universe/fetchs/models"
 	"io/ioutil"
 	"net/http"
 )
@@ -10,37 +11,6 @@ import (
 func LoadData() {
 	fmt.Println("Load data called.")
 	SayHello()
-}
-
-type User struct {
-	Name     string `json:"name"`
-	Email    string `json:"email" gorm:"unique;not null"`
-	Password string `json:"-"`
-	Posts    []Post
-}
-
-type Post struct {
-	CategoryID uint   `gorm:"foreignkey:CategoryID" json:"categoryID"`
-	Title      string `gorm:"not null" json:"title"`
-	Body       string `gorm:"type:text" json:"body"`
-	UserID     uint   `gorm:"foreignkey:UserID" json:"userID"`
-	// Category   uint   `gorm:"foreignkey:CategoryID"`
-	User User `gorm:"foreignkey:UserID"`
-	// Comments   []Comment
-}
-
-type PostData struct {
-	Data        []Post `json:"data"`
-	CurrentPage uint   `json:"current_page"`
-	From        uint   `json:"from"`
-	To          uint   `json:"to"`
-	LastPage    uint   `json:"last_page"`
-	PerPage     uint   `json:"per_page"`
-	Total       uint   `json:"total"`
-}
-
-type PostResponse struct {
-	Response PostData `json:"response"`
 }
 
 func FetchData(ch chan string) {
@@ -74,7 +44,7 @@ func FetchData(ch chan string) {
 		return
 	}
 
-	var resData PostResponse
+	var resData fetch_models.PostResponse
 
 	errRes := json.Unmarshal(body, &resData)
 
@@ -93,20 +63,6 @@ func FetchData(ch chan string) {
 
 	fmt.Printf("%s\n", jsonData)
 
-	// fmt.Println("Len of Posts : ", len(resData.Response.Data))
-
-	// fmt.Println("First Post:resData.Response.Data[0].UserID : ", resData.Response.Data[0].User.Name)
-
-	// fmt.Println(string(body))
 	ch <- string(body)
 
-	// resp, err := http.Get("http://localhost:8000/api/posts")
-	// if err != nil {
-	// 	ch <- fmt.Sprintf("Error: %v", err)
-	// 	return
-	// }
-	// defer resp.Body.Close()
-
-	// body, _ := ioutil.ReadAll(resp.Body)
-	// ch <- string(body)
 }
