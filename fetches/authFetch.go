@@ -1,9 +1,9 @@
-package fetchs
+package fetches
 
 import (
 	"encoding/json"
 	"fmt"
-	fetch_models "github.com/axdevts/go-universe/fetchs/models"
+	fetch_models "github.com/axdevts/go-universe/fetches/models"
 	"io/ioutil"
 	"net/http"
 )

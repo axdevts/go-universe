@@ -3,10 +3,12 @@ package main
 import (
 	"fmt"
 
-	fetches "github.com/axdevts/go-universe/fetchs"
+	"github.com/axdevts/go-universe/fetches"
+	"github.com/axdevts/go-universe/scrap"
 )
 
 func main() {
+
 	fmt.Println("Hello from main!")
 	fetches.SayHello()
 
@@ -22,5 +24,11 @@ func main() {
 
 	fmt.Println("Result of fetched data >>>> ")
 	fmt.Println(result)
+
+	scrap.ScrapDataBySoup()
+
+	scrap.ScrapByColly()
+
+	scrap.ScrapByRod()
 
 }
